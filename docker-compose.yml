@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  backend:
+    build: ./flask
+    ports:
+      - 5000:5000
+    environment:
+      - FLASK_ENV=development
+      - DB_NAME=dev
+      - DB_USER=cc_user
+      - DB_PASSWORD=CC_user_password123
+      - DB_HOST=cc-project.170829406146.eu-west-1.redshift-serverless.amazonaws.com
+      - DB_PORT=5439
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development

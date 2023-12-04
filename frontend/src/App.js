@@ -1,3 +1,6 @@
+// Desc: Main App component for the frontend of the application
+// Note: When deployed swap out localhost to the IP address of the server
+
 import React, { useEffect, useState } from 'react';
 import './App.css';
 

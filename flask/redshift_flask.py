@@ -6,21 +6,22 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import logging
 
+# Instantiate the flask app, enable CORS, and get ENV variables from Docker
 app = Flask(__name__)
 CORS(app)
-
 load_dotenv()
 
-
+# Set up logging
 logger = logging.getLogger('werkzeug')
 
-
+# Cache the results of the queries
 diabetes_age_cache = {}
 diabetes_bmi_cache = {}
 heart_gender_cache = {}
 heart_symptoms_cache = {}
 breast_cancer_cache = {}
 
+# Connect to Redshift using the ENV variables
 def connect_redshift():
 
     print("Connecting to Redshift... 🤞")
@@ -33,12 +34,15 @@ def connect_redshift():
             host=os.getenv('DB_HOST'), 
             port=os.getenv('DB_PORT')
         )
+
         return conn
     
     except Exception as e:
         print("Failed to connect to Redshift: " + str(e))
         return None
 
+# Define the routes
+# The index route is used to check if the connection to Redshift is working
 @app.route('/')
 def index():
     logger.info("Attempting to connect to Redshift... 🤞")
@@ -48,7 +52,8 @@ def index():
     else:
         logger.info("Connection to Redshift successful 🚀")
         return jsonify({"message": "Connection to Redshift successful."}), 200
-    
+
+# API for getting diabetes age related data
 @app.route('/diabetes/age')
 def get_diabetes_age():
 
@@ -93,8 +98,6 @@ def get_diabetes_age():
 
         flattened_rows = [row[0] for row in rows]
         gender_counts = Counter(flattened_rows)
-
-        # Cache the result
         diabetes_age_cache[age_range] = gender_counts
 
         cursor.close()
@@ -107,6 +110,7 @@ def get_diabetes_age():
         conn.close()
         return str(e), 500
 
+# API for getting diabetes bmi related data
 @app.route('/diabetes/bmi')
 def get_diabetes_bmi():
     sex_range = request.args.get('sex_range', default='all', type=str)
@@ -164,6 +168,7 @@ def get_diabetes_bmi():
 
     return jsonify(bmi_data)
 
+# API for getting heart gender related data
 @app.route('/heart/gender')
 def get_heart_gender():
 
@@ -223,6 +228,7 @@ def get_heart_gender():
         conn.close()
         return str(e), 500
     
+# API for getting heart symptom related data
 @app.route('/heart/symptoms')
 def get_heart_age_range():
 
@@ -282,6 +288,7 @@ def get_heart_age_range():
         conn.close()
         return str(e), 500
 
+# API for getting breast cancer related data
 @app.route('/breastcancer/stage')
 def get_breast_cancer_death():
     stage_range = request.args.get('stage_range', default='all', type=str)
@@ -344,5 +351,6 @@ def get_breast_cancer_death():
         conn.close()
         return str(e), 500
 
+# Run the app
 if __name__ == '__main__':
     app.run(debug=True)

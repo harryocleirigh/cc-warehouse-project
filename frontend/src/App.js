@@ -143,7 +143,7 @@ function App() {
     setAgeRange(selectedValue); 
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/diabetes/age?age_range=${selectedValue}`);
+      const response = await fetch(`http://3.253.88.202:5000/diabetes/age?age_range=${selectedValue}`);
       const data = await response.json();
 
       const chartData = {
@@ -168,7 +168,7 @@ function App() {
     setSexRange(selectedValue);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/diabetes/bmi?sex_range=${selectedValue}`);
+      const response = await fetch(`http://3.253.88.202:5000/diabetes/bmi?sex_range=${selectedValue}`);
       const data = await response.json();
 
       // Iterate over the data and assign a colour to each label
@@ -201,7 +201,7 @@ function App() {
     setHeartAttackAgeRange(selectedValue);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/heart/gender?age_range=${selectedValue}`);
+      const response = await fetch(`http://3.253.88.202:5000/heart/gender?age_range=${selectedValue}`);
       const data = await response.json();
 
       const chartData = {
@@ -226,7 +226,7 @@ function App() {
     setHeartAttackSexRange(selectedValue);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/heart/symptoms?sex_range=${selectedValue}`);
+      const response = await fetch(`http://3.253.88.202:5000/heart/symptoms?sex_range=${selectedValue}`);
       const data = await response.json();
 
       const keys = Object.keys(data);
@@ -257,7 +257,7 @@ function App() {
     setBreastCancerTStage(selectedValue);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/breastcancer/stage?stage_range=${selectedValue}`)
+      const response = await fetch(`http://3.253.88.202:5000/breastcancer/stage?stage_range=${selectedValue}`)
       const data = await response.json();
 
       const keys = Object.keys(data);
